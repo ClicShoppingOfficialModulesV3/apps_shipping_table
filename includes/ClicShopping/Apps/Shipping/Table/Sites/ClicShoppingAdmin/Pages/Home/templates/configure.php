@@ -2,7 +2,7 @@
   use ClicShopping\OM\HTML;
   use ClicShopping\OM\Registry;
 
-
+  $CLICSHOPPING_MessageStack = Registry::get('MessageStack');
   $CLICSHOPPING_Table = Registry::get('Table');
   $CLICSHOPPING_Page = Registry::get('Site')->getPage();
 
