@@ -112,9 +112,7 @@
       $CLICSHOPPING_Template = Registry::get('Template');
       $CLICSHOPPING_Shipping = Registry::get('Shipping');
 
-      $shipping_num_boxes = 1;
-      $shipping_weight = $CLICSHOPPING_Shipping->getShippingWeight($shipping_num_boxes);
-
+      $shipping_weight = $CLICSHOPPING_Shipping->getShippingWeight();
 
       if (CLICSHOPPING_APP_TABLE_TA_MODE == 'price') {
         $order_total = $this->getShippableTotal();
