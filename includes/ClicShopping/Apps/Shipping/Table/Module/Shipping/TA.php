@@ -114,6 +114,8 @@
 
       $shipping_weight = $CLICSHOPPING_Shipping->getShippingWeight();
 
+      $shipping_num_boxes = 1;
+
       if (CLICSHOPPING_APP_TABLE_TA_MODE == 'price') {
         $order_total = $this->getShippableTotal();
       } else {
