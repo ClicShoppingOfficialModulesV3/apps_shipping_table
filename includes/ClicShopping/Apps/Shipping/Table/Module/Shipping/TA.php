@@ -1,13 +1,13 @@
 <?php
-/**
- *
- *  @copyright 2008 - https://www.clicshopping.org
- *  @Brand : ClicShopping(Tm) at Inpi all right Reserved
- *  @Licence GPL 2 & MIT
- *  @licence MIT - Portion of osCommerce 2.4
- *  @Info : https://www.clicshopping.org/forum/trademark/
- *
- */
+  /**
+   *
+   * @copyright 2008 - https://www.clicshopping.org
+   * @Brand : ClicShopping(Tm) at Inpi all right Reserved
+   * @Licence GPL 2 & MIT
+   * @licence MIT - Portion of osCommerce 2.4
+   * @Info : https://www.clicshopping.org/forum/trademark/
+   *
+   */
 
   namespace ClicShopping\Apps\Shipping\Table\Module\Shipping;
 
@@ -17,7 +17,8 @@
   use ClicShopping\Apps\Shipping\Table\Table as TableApp;
   use ClicShopping\Sites\Common\B2BCommon;
 
-  class TA implements \ClicShopping\OM\Modules\ShippingInterface  {
+  class TA implements \ClicShopping\OM\Modules\ShippingInterface
+  {
 
     public $code;
     public $title;
@@ -27,7 +28,8 @@
     public $app;
     public $quotes;
 
-    public function __construct() {
+    public function __construct()
+    {
       $CLICSHOPPING_Customer = Registry::get('Customer');
 
       if (Registry::exists('Order')) {
@@ -52,10 +54,10 @@
 
 // Activation module du paiement selon les groupes B2B
       if ($CLICSHOPPING_Customer->getCustomersGroupID() != 0) {
-        if ( B2BCommon::getShippingUnallowed($this->code) ) {
+        if (B2BCommon::getShippingUnallowed($this->code)) {
           if (CLICSHOPPING_APP_TABLE_TA_STATUS == 'True') {
             $this->enabled = true;
-          }  else {
+          } else {
             $this->enabled = false;
           }
         }
@@ -64,7 +66,7 @@
           if ($CLICSHOPPING_Customer->getCustomersGroupID() == 0) {
             if (CLICSHOPPING_APP_TABLE_TA_STATUS == 'True') {
               $this->enabled = true;
-            }  else {
+            } else {
               $this->enabled = false;
             }
           }
@@ -73,25 +75,25 @@
 
       if (defined('CLICSHOPPING_APP_TABLE_TA_TAX_CLASS')) {
         if ($CLICSHOPPING_Customer->getCustomersGroupID() != 0) {
-          if ( B2BCommon::getTaxUnallowed($this->code) || !$CLICSHOPPING_Customer->isLoggedOn()  ) {
+          if (B2BCommon::getTaxUnallowed($this->code) || !$CLICSHOPPING_Customer->isLoggedOn()) {
             $this->tax_class = defined('CLICSHOPPING_APP_TABLE_TA_TAX_CLASS') ? CLICSHOPPING_APP_TABLE_TA_TAX_CLASS : 0;
 
           }
         } else {
-          if ( B2BCommon::getTaxUnallowed($this->code) ) {
+          if (B2BCommon::getTaxUnallowed($this->code)) {
             $this->tax_class = defined('CLICSHOPPING_APP_TABLE_TA_TAX_CLASS') ? CLICSHOPPING_APP_TABLE_TA_TAX_CLASS : 0;
           }
         }
       }
 
-      if ( ($this->enabled === true) && ((int)CLICSHOPPING_APP_TABLE_TA_ZONE > 0) ) {
+      if (($this->enabled === true) && ((int)CLICSHOPPING_APP_TABLE_TA_ZONE > 0)) {
         $check_flag = false;
 
         $Qcheck = $this->app->db->get('zones_to_geo_zones', 'zone_id', ['geo_zone_id' => (int)CLICSHOPPING_APP_TABLE_TA_ZONE,
-                                                                        'zone_country_id' => $CLICSHOPPING_Order->delivery['country']['id']
-                                                                       ],
-                                                                       'zone_id'
-                                      );
+          'zone_country_id' => $CLICSHOPPING_Order->delivery['country']['id']
+        ],
+          'zone_id'
+        );
 
         while ($Qcheck->fetch()) {
           if (($Qcheck->valueInt('zone_id') < 1) || ($Qcheck->valueInt('zone_id') == $CLICSHOPPING_Order->delivery['zone_id'])) {
@@ -106,7 +108,8 @@
       }
     }
 
-    public function quote($method = '') {
+    public function quote($method = '')
+    {
       $CLICSHOPPING_Order = Registry::get('Order');
       $CLICSHOPPING_Tax = Registry::get('Tax');
       $CLICSHOPPING_Template = Registry::get('Template');
@@ -122,12 +125,12 @@
         $order_total = $shipping_weight;
       }
 
-      $table_cost = preg_split("/[:,]/" , CLICSHOPPING_APP_TABLE_TA_COST);
+      $table_cost = preg_split("/[:,]/", CLICSHOPPING_APP_TABLE_TA_COST);
       $size = count($table_cost);
 
-      for ($i=0, $n=$size; $i<$n; $i+=2) {
+      for ($i = 0, $n = $size; $i < $n; $i += 2) {
         if ($order_total <= $table_cost[$i]) {
-          $shipping = $table_cost[$i+1];
+          $shipping = $table_cost[$i + 1];
           break;
         }
       }
@@ -137,14 +140,14 @@
       }
 
       $this->quotes = ['id' => $this->app->vendor . '\\' . $this->app->code . '\\' . $this->code,
-                        'module' => $this->app->getDef('module_table_text_title'),
-                        'methods' => [array('id' => $this->code,
-                                             'title' => $this->app->getDef('module_shipping_table_text_way'),
-                                             'cost' => $shipping + (float)CLICSHOPPING_APP_TABLE_TA_HANDLING
+        'module' => $this->app->getDef('module_table_text_title'),
+        'methods' => [array('id' => $this->code,
+          'title' => $this->app->getDef('module_shipping_table_text_way'),
+          'cost' => $shipping + (float)CLICSHOPPING_APP_TABLE_TA_HANDLING
 
-                                            )
-                                      ]
-                      ];
+        )
+        ]
+      ];
 
       if ($this->tax_class > 0) {
         $this->quotes['tax'] = $CLICSHOPPING_Tax->getTaxRate($this->tax_class, $CLICSHOPPING_Order->delivery['country']['id'], $CLICSHOPPING_Order->delivery['zone_id']);
@@ -152,33 +155,38 @@
 
       if (!empty(CLICSHOPPING_APP_TABLE_TA_LOGO)) {
         $this->icon = $CLICSHOPPING_Template->getDirectoryTemplateImages() . 'logos/shipping/' . CLICSHOPPING_APP_TABLE_TA_LOGO;
-        $this->icon =  HTML::image($this->icon, $this->title);
+        $this->icon = HTML::image($this->icon, $this->title);
       } else {
-        $this->icon  = '';
+        $this->icon = '';
       }
 
-      if (!is_null($this->icon)) $this->quotes['icon'] =  '&nbsp;&nbsp;&nbsp;' . $this->icon;
+      if (!is_null($this->icon)) $this->quotes['icon'] = '&nbsp;&nbsp;&nbsp;' . $this->icon;
 
       return $this->quotes;
     }
 
-    public function check() {
+    public function check()
+    {
       return defined('CLICSHOPPING_APP_TABLE_TA_STATUS') && (trim(CLICSHOPPING_APP_TABLE_TA_STATUS) != '');
     }
 
-    public function install() {
+    public function install()
+    {
       $this->app->redirect('Configure&Install&module=Table');
     }
 
-    public function remove() {
+    public function remove()
+    {
       $this->app->redirect('Configure&Uninstall&module=Table');
     }
 
-    public function keys() {
+    public function keys()
+    {
       return array('CLICSHOPPING_APP_TABLE_TA_SORT_ORDER');
     }
 
-    function getShippableTotal() {
+    function getShippableTotal()
+    {
       $CLICSHOPPING_Db = Registry::get('Db');
       $CLICSHOPPING_Currencies = Registry::get('Currencies');
       $CLICSHOPPING_ShoppingCart = Registry::get('ShoppingCart');
@@ -189,11 +197,11 @@
       if ($CLICSHOPPING_Order->content_type == 'mixed') {
         $order_total = 0;
 
-        for ($i=0, $n=count($CLICSHOPPING_Order->products); $i<$n; $i++) {
+        for ($i = 0, $n = count($CLICSHOPPING_Order->products); $i < $n; $i++) {
           $order_total += $CLICSHOPPING_Currencies->calculate_price($CLICSHOPPING_Order->products[$i]['final_price'], $CLICSHOPPING_Order->products[$i]['tax'], $CLICSHOPPING_Order->products[$i]['qty']);
 
           if (isset($CLICSHOPPING_Order->products[$i]['attributes'])) {
-            foreach ( $CLICSHOPPING_Order->products[$i]['attributes'] as $option => $value ) {
+            foreach ($CLICSHOPPING_Order->products[$i]['attributes'] as $option => $value) {
               $Qcheck = $CLICSHOPPING_Db->prepare('select pa.products_id
                                                     from :table_products_attributes pa,
                                                          :table_products_attributes_download pad
