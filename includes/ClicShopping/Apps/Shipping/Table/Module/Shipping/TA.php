@@ -198,7 +198,7 @@
         $order_total = 0;
 
         for ($i = 0, $n = count($CLICSHOPPING_Order->products); $i < $n; $i++) {
-          $order_total += $CLICSHOPPING_Currencies->calculate_price($CLICSHOPPING_Order->products[$i]['final_price'], $CLICSHOPPING_Order->products[$i]['tax'], $CLICSHOPPING_Order->products[$i]['qty']);
+          $order_total += $CLICSHOPPING_Currencies->calculatePrice($CLICSHOPPING_Order->products[$i]['final_price'], $CLICSHOPPING_Order->products[$i]['tax'], $CLICSHOPPING_Order->products[$i]['qty']);
 
           if (isset($CLICSHOPPING_Order->products[$i]['attributes'])) {
             foreach ($CLICSHOPPING_Order->products[$i]['attributes'] as $option => $value) {
@@ -214,7 +214,7 @@
               $Qcheck->execute();
 
               if ($Qcheck->fetch() !== false) {
-                $order_total -= $CLICSHOPPING_Currencies->calculate_price($CLICSHOPPING_Order->products[$i]['final_price'], $CLICSHOPPING_Order->products[$i]['tax'], $CLICSHOPPING_Order->products[$i]['qty']);
+                $order_total -= $CLICSHOPPING_Currencies->calculatePrice($CLICSHOPPING_Order->products[$i]['final_price'], $CLICSHOPPING_Order->products[$i]['tax'], $CLICSHOPPING_Order->products[$i]['qty']);
               }
             }
           }
