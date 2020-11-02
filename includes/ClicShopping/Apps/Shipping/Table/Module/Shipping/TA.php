@@ -19,14 +19,19 @@
 
   class TA implements \ClicShopping\OM\Modules\ShippingInterface
   {
-
     public $code;
     public $title;
     public $description;
-    public $enabled;
+    public $enabled = false;
     public $icon;
     public $app;
     public $quotes;
+    public $signature;
+    public $public_title;
+    public $api_version;
+    public $sort_order = 0;
+    public $tax_class;
+    public $group;
 
     public function __construct()
     {
@@ -42,7 +47,6 @@
 
       $this->app = Registry::get('Table');
       $this->app->loadDefinitions('Module/Shop/TA/TA');
-
 
       $this->signature = 'Table|' . $this->app->getVersion() . '|1.0';
       $this->api_version = $this->app->getApiVersion();

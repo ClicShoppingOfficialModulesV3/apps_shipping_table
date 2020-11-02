@@ -21,8 +21,8 @@
 
   $CLICSHOPPING_Table_Config = Registry::get('TableAdminConfig' . $current_module);
 
-  if ($CLICSHOPPING_MessageStack->exists('Table')) {
-    echo $CLICSHOPPING_MessageStack->get('Table');
+  if ($CLICSHOPPING_MessageStack->exists('main')) {
+    echo $CLICSHOPPING_MessageStack->get('main');
   }
 ?>
 <div class="contentBody">
