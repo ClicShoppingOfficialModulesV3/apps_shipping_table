@@ -54,7 +54,7 @@
       $this->code = 'TA';
       $this->title = $this->app->getDef('module_table_title');
       $this->public_title = $this->app->getDef('module_table_public_title');
-      $this->sort_order = defined('CLICSHOPPING_APP_TABLE_TA_SORT_ORDER') ? CLICSHOPPING_APP_TABLE_TA_SORT_ORDER : 0;
+      $this->sort_order = \defined('CLICSHOPPING_APP_TABLE_TA_SORT_ORDER') ? CLICSHOPPING_APP_TABLE_TA_SORT_ORDER : 0;
 
 // Activation module du paiement selon les groupes B2B
       if ($CLICSHOPPING_Customer->getCustomersGroupID() != 0) {
@@ -66,7 +66,7 @@
           }
         }
       } else {
-        if (defined('CLICSHOPPING_APP_TABLE_TA_NO_AUTHORIZE') && CLICSHOPPING_APP_TABLE_TA_NO_AUTHORIZE == 'True' && $CLICSHOPPING_Customer->getCustomersGroupID() == 0) {
+        if (\defined('CLICSHOPPING_APP_TABLE_TA_NO_AUTHORIZE') && CLICSHOPPING_APP_TABLE_TA_NO_AUTHORIZE == 'True' && $CLICSHOPPING_Customer->getCustomersGroupID() == 0) {
           if ($CLICSHOPPING_Customer->getCustomersGroupID() == 0) {
             if (CLICSHOPPING_APP_TABLE_TA_STATUS == 'True') {
               $this->enabled = true;
@@ -77,15 +77,15 @@
         }
       }
 
-      if (defined('CLICSHOPPING_APP_TABLE_TA_TAX_CLASS')) {
+      if (\defined('CLICSHOPPING_APP_TABLE_TA_TAX_CLASS')) {
         if ($CLICSHOPPING_Customer->getCustomersGroupID() != 0) {
           if (B2BCommon::getTaxUnallowed($this->code) || !$CLICSHOPPING_Customer->isLoggedOn()) {
-            $this->tax_class = defined('CLICSHOPPING_APP_TABLE_TA_TAX_CLASS') ? CLICSHOPPING_APP_TABLE_TA_TAX_CLASS : 0;
+            $this->tax_class = \defined('CLICSHOPPING_APP_TABLE_TA_TAX_CLASS') ? CLICSHOPPING_APP_TABLE_TA_TAX_CLASS : 0;
 
           }
         } else {
           if (B2BCommon::getTaxUnallowed($this->code)) {
-            $this->tax_class = defined('CLICSHOPPING_APP_TABLE_TA_TAX_CLASS') ? CLICSHOPPING_APP_TABLE_TA_TAX_CLASS : 0;
+            $this->tax_class = \defined('CLICSHOPPING_APP_TABLE_TA_TAX_CLASS') ? CLICSHOPPING_APP_TABLE_TA_TAX_CLASS : 0;
           }
         }
       }
@@ -130,7 +130,7 @@
       }
 
       $table_cost = preg_split("/[:,]/", CLICSHOPPING_APP_TABLE_TA_COST);
-      $size = count($table_cost);
+      $size = \count($table_cost);
 
       for ($i = 0, $n = $size; $i < $n; $i += 2) {
         if ($order_total <= $table_cost[$i]) {
@@ -164,14 +164,14 @@
         $this->icon = '';
       }
 
-      if (!is_null($this->icon)) $this->quotes['icon'] = '&nbsp;&nbsp;&nbsp;' . $this->icon;
+      if (!\is_null($this->icon)) $this->quotes['icon'] = '&nbsp;&nbsp;&nbsp;' . $this->icon;
 
       return $this->quotes;
     }
 
     public function check()
     {
-      return defined('CLICSHOPPING_APP_TABLE_TA_STATUS') && (trim(CLICSHOPPING_APP_TABLE_TA_STATUS) != '');
+      return \defined('CLICSHOPPING_APP_TABLE_TA_STATUS') && (trim(CLICSHOPPING_APP_TABLE_TA_STATUS) != '');
     }
 
     public function install()
@@ -201,7 +201,7 @@
       if ($CLICSHOPPING_Order->content_type == 'mixed') {
         $order_total = 0;
 
-        for ($i = 0, $n = count($CLICSHOPPING_Order->products); $i < $n; $i++) {
+        for ($i = 0, $n = \count($CLICSHOPPING_Order->products); $i < $n; $i++) {
           $order_total += $CLICSHOPPING_Currencies->calculatePrice($CLICSHOPPING_Order->products[$i]['final_price'], $CLICSHOPPING_Order->products[$i]['tax'], $CLICSHOPPING_Order->products[$i]['qty']);
 
           if (isset($CLICSHOPPING_Order->products[$i]['attributes'])) {

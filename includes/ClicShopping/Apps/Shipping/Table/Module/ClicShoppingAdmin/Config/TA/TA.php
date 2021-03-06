@@ -24,14 +24,14 @@
       $this->title = $this->app->getDef('module_table_title');
       $this->short_title = $this->app->getDef('module_table_short_title');
       $this->introduction = $this->app->getDef('module_table_introduction');
-      $this->is_installed = defined('CLICSHOPPING_APP_TABLE_TA_STATUS') && (trim(CLICSHOPPING_APP_TABLE_TA_STATUS) != '');
+      $this->is_installed = \defined('CLICSHOPPING_APP_TABLE_TA_STATUS') && (trim(CLICSHOPPING_APP_TABLE_TA_STATUS) != '');
     }
 
     public function install()
     {
       parent::install();
 
-      if (defined('MODULE_SHIPPING_INSTALLED')) {
+      if (\defined('MODULE_SHIPPING_INSTALLED')) {
         $installed = explode(';', MODULE_SHIPPING_INSTALLED);
       }
 
