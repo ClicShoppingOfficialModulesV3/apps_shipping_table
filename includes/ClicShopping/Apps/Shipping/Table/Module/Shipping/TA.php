@@ -19,7 +19,7 @@
 
   class TA implements \ClicShopping\OM\Modules\ShippingInterface
   {
-    public $code;
+    public string $code;
     public $title;
     public $description;
     public $enabled = false;
@@ -29,7 +29,7 @@
     public $signature;
     public $public_title;
     public $api_version;
-    public $sort_order = 0;
+    public ?int $sort_order = 0;
     public $tax_class;
     public $group;
 
