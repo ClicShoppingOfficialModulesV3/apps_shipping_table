@@ -14,7 +14,7 @@
   class cost extends \ClicShopping\Apps\Shipping\Table\Module\ClicShoppingAdmin\Config\ConfigParamAbstract
   {
     public $default = '25:8.50,50:5.50,10000:0.00';
-    public $sort_order = 40;
+    public ?int $sort_order = 40;
 
     protected function init()
     {
