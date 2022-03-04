@@ -17,7 +17,7 @@
   {
 
     public $default = '0';
-    public $sort_order = 50;
+    public ?int $sort_order = 50;
 
     protected function init()
     {

@@ -17,7 +17,7 @@
   class mode extends \ClicShopping\Apps\Shipping\Table\Module\ClicShoppingAdmin\Config\ConfigParamAbstract
   {
     public $default = 'weight';
-    public $sort_order = 10;
+    public ?int $sort_order = 10;
 
     protected function init()
     {
